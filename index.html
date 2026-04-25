@@ -1481,7 +1481,7 @@
   <img src="AFDS_RECTANGLE_1500px.jpg" alt="AFDS Logo" style="max-width: 360px; width: 80%; height: auto; margin-bottom: 20px;">
   <div class="hero-eyebrow">Littleton Performing Arts Center</div>
   <h1>Inferno <span>Dance</span> Competition</h1>
-  <div class="hero-sub">May 8 – 9, 2026 &nbsp;·&nbsp; A fair, encouraging and enjoyable competition experience for all attendees</div>
+  <div class="hero-sub">May 8 – 10, 2026 &nbsp;·&nbsp; A fair, encouraging and enjoyable competition experience for all attendees</div>
   <div style="margin-top:10px;">
     <a class="gps-btn" href="https://maps.apple.com/?q=Littleton+PAC&address=56+King+St,Littleton,MA+01460" target="_blank" rel="noopener" title="Opens in Maps">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
@@ -1765,9 +1765,10 @@
 
   <div class="section-label">Schedule by Day</div>
   <div class="day-tabs">
-    <button class="day-tab active" onclick="showDay('all',this)">Full Schedule<span class="tab-sub">Both Days</span></button>
+    <button class="day-tab active" onclick="showDay('all',this)">Full Schedule<span class="tab-sub">All 3 Days</span></button>
     <button class="day-tab" onclick="showDay('fri',this)">Friday<span class="tab-sub">May 8</span></button>
     <button class="day-tab" onclick="showDay('sat',this)">Saturday<span class="tab-sub">May 9</span></button>
+    <button class="day-tab" onclick="showDay('sun',this)">Sunday<span class="tab-sub">May 10</span></button>
   </div>
 
   <div class="past-toggle-bar" id="pastToggleBar">
@@ -1835,7 +1836,7 @@
   </a>
 </div>
 <div class="footer-note">
-  <strong>Inferno Dance Competition</strong> · May 8–9, 2026 · Littleton PAC, 56 King St, Littleton, MA 01460 · <a class="gps-btn-footer" href="https://maps.apple.com/?q=Littleton+PAC&address=56+King+St,Littleton,MA+01460" target="_blank" rel="noopener" title="Opens in Maps"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> GPS Directions</a><br>
+  <strong>Inferno Dance Competition</strong> · May 8–10, 2026 · Littleton PAC, 56 King St, Littleton, MA 01460 · <a class="gps-btn-footer" href="https://maps.apple.com/?q=Littleton+PAC&address=56+King+St,Littleton,MA+01460" target="_blank" rel="noopener" title="Opens in Maps"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> GPS Directions</a><br>
   <span style="display:block;margin-top:6px;color:#666"><span style="color:#2e6285">●</span> SPARK &nbsp;<span style="color:#5a3a8a">●</span> FIRE &nbsp;<span style="color:#cc1122">●</span> BLAZE &nbsp;·&nbsp; All times are approximate stage times · Check each routine for individual arrival times</span>
 </div>
 
@@ -1969,6 +1970,30 @@
     'Senior': 'tag-senior'
   };
 
+  /* ===== SESSION KEY MAPPER =====
+     Translates the sheet's free-form "Session" labels (e.g. "Fri PM",
+     "Sat Am", "Sat AFT", "Sun AM", "Sun AFT") into the canonical
+     GRID_MAP keys (fri-eve, sat-morn, sat-aft, sat-eve, sun-morn,
+     sun-aft). Also passes through values that are already canonical. */
+  function mapSessionKey(s) {
+    if (!s) return '';
+    s = String(s).trim();
+    if (/^(fri|sat|sun)-(morn|aft|eve)$/.test(s)) return s;
+    var lower = s.toLowerCase();
+    var day = '';
+    if (lower.indexOf('fri') === 0) day = 'fri';
+    else if (lower.indexOf('sat') === 0) day = 'sat';
+    else if (lower.indexOf('sun') === 0) day = 'sun';
+    else return '';
+    var rest = lower.slice(3).trim();
+    var slot = '';
+    if (rest === 'am' || rest === 'morn' || rest === 'morning') slot = 'morn';
+    else if (rest === 'aft' || rest === 'afternoon') slot = 'aft';
+    else if (rest === 'pm' || rest === 'eve' || rest === 'evening' || rest === 'night') slot = 'eve';
+    else return '';
+    return day + '-' + slot;
+  }
+
   /* ===== RENDER ROUTINES FROM SHEET DATA ===== */
   function renderRoutines(routines) {
     // Clear all grids
@@ -1977,29 +2002,48 @@
       if (el) el.innerHTML = '';
     });
 
-    routines.forEach(function(r) {
-      var sessionKey = r['Session Key'];
+    routines.forEach(function(r, idx) {
+      // Read column values, supporting both legacy header names and the
+      // current Inferno sheet headers. Trim trailing whitespace from
+      // header keys (the sheet has 'Level ' with a trailing space).
+      function pick() {
+        for (var i = 0; i < arguments.length; i++) {
+          var v = r[arguments[i]];
+          if (v !== undefined && v !== null && String(v).trim() !== '') return String(v).trim();
+        }
+        return '';
+      }
+
+      var sessionRaw = pick('Session Key', 'Session');
+      var sessionKey = mapSessionKey(sessionRaw);
       var gridId = GRID_MAP[sessionKey];
       if (!gridId) return;
       var grid = document.getElementById(gridId);
       if (!grid) return;
 
-      var routineNum = r['Routine #'];
-      var title = r['Title'] || '';
-      var category = r['Category'] || '';
-      var ageDivision = r['Age Division'] || '';
-      var groupSize = r['Group Size'] || '';
-      var level = r['Level'] || '';
-      var dayKey = r['Day Key'] || '';
-      var stageTime = r['Stage Time'] || '';
-      var arriveTime = r['Arrive Time'] || '';
-      var dancers = r['Dancer(s)'] || '';
-      var titleContender = r['Title Contender?'] || '';
-      var awardsTime = r['Awards Time'] || '';
+      var routineNum = pick('Routine #', '#');
+      var hasRoutineNum = routineNum !== '';
+      var routineId = hasRoutineNum ? routineNum : ('r' + (idx + 1));
+
+      var title = pick('Title', 'Routine');
+      var category = pick('Category', 'Genre');
+      var ageDivision = pick('Age Division', 'Age');
+      var groupSize = pick('Group Size', 'Group');
+      var level = pick('Level', 'Level ');
+      var dayKey = pick('Day Key') || sessionKey.split('-')[0];
+      var stageTime = pick('Stage Time', 'Approx. Stage Time') || 'TBD';
+      var arriveTime = pick('Arrive Time', 'Arrival Time') || 'TBD';
+      var dancers = pick('Dancer(s)');
+      var titleContender = pick('Title Contender?');
+      var awardsTime = pick('Awards Time');
 
       var isSolo = groupSize === 'Solo';
       var dancerList = dancers.split(',').map(function(d) { return d.trim(); }).filter(Boolean);
       var dancerCount = dancerList.length;
+
+      // Normalize level for class/data-level lookup (sheet uses "Spark" / "Fire" / "Blaze";
+      // mapping tables are keyed in upper case).
+      var levelKey = level.toUpperCase();
 
       // Build searchable text
       var searchTxt = [routineNum, title, category, ageDivision, groupSize, level, dancers].join(' ').toLowerCase();
@@ -2008,15 +2052,15 @@
       var row = document.createElement('div');
       row.className = 'routine-row';
       row.dataset.day = dayKey;
-      row.dataset.level = LEVEL_DATA[level] || level;
+      row.dataset.level = LEVEL_DATA[levelKey] || level;
       row.dataset.age = ageDivision;
       row.dataset.txt = searchTxt;
-      row.dataset.routineNum = routineNum;
+      row.dataset.routineNum = routineId;
 
-      // Dot column (desktop timeline)
+      // Dot column (desktop timeline) — show "#N" only when sheet has a routine number
       var dotCol = document.createElement('div');
       dotCol.className = 'dot-col';
-      dotCol.innerHTML = '<div class="dot"></div><div class="rnum">#' + routineNum + '</div>';
+      dotCol.innerHTML = '<div class="dot"></div>' + (hasRoutineNum ? ('<div class="rnum">#' + routineNum + '</div>') : '');
       row.appendChild(dotCol);
 
       // Routine card
@@ -2027,11 +2071,13 @@
       var body = document.createElement('div');
       body.className = 'routine-body';
 
-      // Mobile routine number
-      var rnumMobile = document.createElement('div');
-      rnumMobile.className = 'rnum-mobile';
-      rnumMobile.textContent = '#' + routineNum;
-      body.appendChild(rnumMobile);
+      // Mobile routine number — only shown when sheet has a number
+      if (hasRoutineNum) {
+        var rnumMobile = document.createElement('div');
+        rnumMobile.className = 'rnum-mobile';
+        rnumMobile.textContent = '#' + routineNum;
+        body.appendChild(rnumMobile);
+      }
 
       // Title
       var titleEl = document.createElement('div');
@@ -2066,8 +2112,8 @@
       tagsEl.className = 'tags';
 
       var levelTag = document.createElement('span');
-      levelTag.className = 'tag ' + (LEVEL_TAG_CLASS[level] || 'tag-advanced');
-      levelTag.textContent = level;
+      levelTag.className = 'tag ' + (LEVEL_TAG_CLASS[levelKey] || 'tag-advanced');
+      levelTag.textContent = level.toUpperCase();
       tagsEl.appendChild(levelTag);
 
       var ageTag = document.createElement('span');
@@ -2085,7 +2131,7 @@
       // Award results placeholder (populated by awards fetch)
       var awardResults = document.createElement('div');
       awardResults.className = 'award-results';
-      awardResults.id = 'awards-' + routineNum;
+      awardResults.id = 'awards-' + routineId;
       awardResults.style.display = 'none';
       body.appendChild(awardResults);
 
@@ -2456,7 +2502,7 @@
       var timeStage = row.querySelector('.time-stage');
       if (!timeCol || !timeStage) return;
       var timeText = timeStage.textContent.trim();
-      if (timeText === '\u2014' || !timeText) return;
+      if (timeText === '\u2014' || !timeText || timeText === 'TBD') return;
 
       var hasAwards = !!row.querySelector('.time-awards');
 
@@ -2556,7 +2602,7 @@
     var awardsTimeText = awardsEl ? awardsEl.textContent.replace(/^.*Awards\s*/, '').trim() : '';
     var day = row.dataset.day;
 
-    var dateMap = { fri: '2026-05-08', sat: '2026-05-09' };
+    var dateMap = { fri: '2026-05-08', sat: '2026-05-09', sun: '2026-05-10' };
     var dateStr = dateMap[day];
 
     var location = 'Littleton PAC, 56 King St, Littleton, MA 01460';
@@ -2579,7 +2625,7 @@
       var desc = 'Awards Ceremony for: ' + title +
         (dancer ? '\\nDancer(s): ' + dancer : '') +
         '\\nAwards Time: ' + awardsTimeText +
-        '\\n\\nInferno Dance Competition \u2014 May 8\u20139, 2026\\nLittleton PAC, 56 King St, Littleton, MA 01460\\nGPS: https://maps.apple.com/?q=Littleton+PAC&address=56+King+St,Littleton,MA+01460';
+        '\\n\\nInferno Dance Competition \u2014 May 8\u201310, 2026\\nLittleton PAC, 56 King St, Littleton, MA 01460\\nGPS: https://maps.apple.com/?q=Littleton+PAC&address=56+King+St,Littleton,MA+01460';
       var ics = buildICS(summary, desc, location, startDT, endDT, 'Awards for ' + title, 'awards');
       triggerDownload(ics, title + '_awards_reminder');
       showToast('Awards reminder downloaded');
@@ -2594,7 +2640,7 @@
         (dancer ? '\\nDancer(s): ' + dancer : '') +
         '\\nStage Time: ' + timeStage +
         (timeArrive ? '\\n' + timeArrive : '') +
-        '\\n\\nInferno Dance Competition \u2014 May 8\u20139, 2026\\nLittleton PAC, 56 King St, Littleton, MA 01460\\nGPS: https://maps.apple.com/?q=Littleton+PAC&address=56+King+St,Littleton,MA+01460';
+        '\\n\\nInferno Dance Competition \u2014 May 8\u201310, 2026\\nLittleton PAC, 56 King St, Littleton, MA 01460\\nGPS: https://maps.apple.com/?q=Littleton+PAC&address=56+King+St,Littleton,MA+01460';
       var ics = buildICS(summary, desc, location, startDT, endDT, title, 'routine');
       triggerDownload(ics, title + '_reminder');
       showToast('Routine reminder downloaded');
@@ -2943,7 +2989,7 @@
   /* ===== PAST ROUTINES LOGIC (15-minute grace period) ===== */
 
   var _pastVisible = true;
-  var _dateMap = { fri: '2026-04-10', sat: '2026-04-11', sun: '2026-04-12' };
+  var _dateMap = { fri: '2026-05-08', sat: '2026-05-09', sun: '2026-05-10' };
 
   function markPastRoutines() {
     var now = new Date();
