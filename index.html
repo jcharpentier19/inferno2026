@@ -3,17 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Headliners Dance Competition — April 2026</title>
-<meta property="og:title" content="Headliners Dance Competition — April 2026">
-<meta property="og:description" content="The Stockbridge Theater at Pinkerton Academy, Derry, NH · April 10–12, 2026">
+<title>Inferno Dance Competition — May 2026</title>
+<meta property="og:title" content="Inferno Dance Competition — May 2026">
+<meta property="og:description" content="Littleton PAC — 56 King St, Littleton, MA · May 8–9, 2026">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://headliners2026.netlify.app/">
 <meta property="og:image" content="https://headliners2026.netlify.app/AFDS_RECTANGLE_1500px.jpg">
 <meta property="og:image:width" content="1500">
 <meta property="og:image:height" content="500">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Headliners Dance Competition — April 2026">
-<meta name="twitter:description" content="The Stockbridge Theater at Pinkerton Academy, Derry, NH · April 10–12, 2026">
+<meta name="twitter:title" content="Inferno Dance Competition — May 2026">
+<meta name="twitter:description" content="Littleton PAC — 56 King St, Littleton, MA · May 8–9, 2026">
 <meta name="twitter:image" content="https://headliners2026.netlify.app/AFDS_RECTANGLE_1500px.jpg">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -1377,88 +1377,6 @@
   }
 
 
-  /* ===== THANK YOU / CELEBRATION POPUP ===== */
-  .celebration-popup .popup-card {
-    max-width: 520px;
-    padding: 36px 28px 28px;
-    background: linear-gradient(170deg, #fff9f0 0%, #fff 40%, #fef0f0 100%);
-    border: 2px solid #f5d5d5;
-    overflow: hidden;
-  }
-  .celebration-trophy { font-size: 52px; margin-bottom: 4px; line-height: 1; }
-  .celebration-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 26px;
-    font-weight: 700;
-    color: var(--rose);
-    margin-bottom: 6px;
-    line-height: 1.2;
-  }
-  .celebration-subtitle {
-    font-family: 'Playfair Display', serif;
-    font-size: 16px;
-    font-weight: 600;
-    color: var(--deep);
-    margin-bottom: 18px;
-    line-height: 1.4;
-  }
-  .celebration-subtitle em { color: var(--rose); font-style: italic; }
-  .celebration-body {
-    font-size: 14px;
-    line-height: 1.7;
-    color: #333;
-    text-align: left;
-    margin-bottom: 22px;
-    max-height: 45vh;
-    overflow-y: auto;
-    padding-right: 4px;
-  }
-  .celebration-body p { margin: 0 0 12px; }
-  .celebration-body p:last-child { margin-bottom: 0; }
-  .celebration-signature {
-    font-family: 'Playfair Display', serif;
-    font-style: italic;
-    font-size: 15px;
-    color: var(--rose);
-    text-align: right;
-    margin-top: 16px;
-    font-weight: 600;
-  }
-  .celebration-hearts {
-    font-size: 18px;
-    margin-top: 4px;
-    text-align: right;
-  }
-  .celebration-close-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    background: linear-gradient(135deg, var(--rose), #d4451a);
-    color: #fff;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 15px;
-    font-weight: 600;
-    padding: 12px 32px;
-    border: none;
-    border-radius: 50px;
-    cursor: pointer;
-    transition: background 0.2s, transform 0.15s;
-    width: 100%;
-    max-width: 280px;
-    margin-top: 8px;
-  }
-  .celebration-close-btn:hover { background: linear-gradient(135deg, #a00e1c, #b33816); transform: scale(1.03); }
-  .celebration-close-btn:active { transform: scale(0.97); }
-
-  /* confetti canvas */
-  #confetti-canvas {
-    position: fixed;
-    inset: 0;
-    z-index: 10000;
-    pointer-events: none;
-  }
-
   /* ===== EARLY SCHEDULE POPUP ===== */
   .popup-overlay {
     position: fixed;
@@ -1558,43 +1476,19 @@
 <body>
 
 
-<!-- CELEBRATION POPUP -->
-<div class="popup-overlay celebration-popup" id="celebrationPopup">
-  <div class="popup-card">
-    <div class="celebration-trophy">🏆</div>
-    <div class="celebration-title">WE DID IT!</div>
-    <div class="celebration-subtitle">A Fine Dance Studio is proud to have been awarded the<br><em>Excellence In Choreography Award</em><br>for the entire weekend!</div>
-    <div class="celebration-body">
-      <p>This honor belongs to every single person in our AFDS family. To our incredibly talented in-house faculty and guest choreographers and teachers, thank you for your vision, your artistry, and your relentless dedication to the craft. Great choreography isn't just a dream; it's in the execution. Some of you are the dreamers, and some of you are the cleaners, and we need every single one of you.</p>
-      <p>To our dancers, you brought it to life. Your hard work, trust, and commitment on that stage is what made this possible.</p>
-      <p>To our parents, none of this happens without you. Your unwavering support of your children and of this program is the foundation everything is built on. We are so grateful to be on this journey with you as part of our dance family.</p>
-      <p>Thank you to each and every teacher who pours into the technical training and growth of our students every single day. Strong foundations build extraordinary dancers.</p>
-      <p>Teamwork makes the dream work.</p>
-      <div class="celebration-signature">— Miss Abigail</div>
-      <div class="celebration-hearts">🖤❤️</div>
-    </div>
-    <button class="celebration-close-btn" onclick="closeCelebration()">🎉 Let's Celebrate! 🎉</button>
-  </div>
-</div>
-<canvas id="confetti-canvas"></canvas>
-
 <!-- HERO -->
 <div class="hero">
   <img src="AFDS_RECTANGLE_1500px.jpg" alt="AFDS Logo" style="max-width: 360px; width: 80%; height: auto; margin-bottom: 20px;">
-  <div class="hero-eyebrow">The Stockbridge Theater at Pinkerton Academy</div>
-  <h1>Headliners <span>Dance</span> Competition</h1>
-  <div class="hero-sub">April 10 – 12, 2026 &nbsp;·&nbsp; The Competition for Dancers by Dancers</div>
+  <div class="hero-eyebrow">Littleton Performing Arts Center</div>
+  <h1>Inferno <span>Dance</span> Competition</h1>
+  <div class="hero-sub">May 8 – 9, 2026 &nbsp;·&nbsp; A fair, encouraging and enjoyable competition experience for all attendees</div>
   <div style="margin-top:10px;">
-    <a class="gps-btn" href="https://maps.apple/p/QyFEj3q6vj1CbD" target="_blank" rel="noopener" title="Opens in Apple Maps">
+    <a class="gps-btn" href="https://maps.apple.com/?q=Littleton+PAC&address=56+King+St,Littleton,MA+01460" target="_blank" rel="noopener" title="Opens in Maps">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-      Click Here for Main Entrance GPS Directions
+      56 King St, Littleton, MA &mdash; GPS Directions
     </a>
   </div>
   <div class="gold-line"></div>
-  <a class="livestream-badge" href="http://headlinersdance.com/live" target="_blank" rel="noopener">
-    <span class="live-dot"></span>
-    Watch Live Stream &mdash; Password: HL10DERRT!
-  </a>
 </div>
 
 <!-- ===== AWARD STRUCTURE BANNER ===== -->
@@ -1617,48 +1511,50 @@
           Competition Levels
         </div>
         <p class="award-info-card" style="margin-bottom:14px;font-size:13px;color:#777;">
-          Levels are based on technical ability and execution of movements, not just class time.
+          Levels are determined by the level of the skills within the routine, not by those of the individual dancer(s).
         </p>
 
-        <!-- Novice -->
+        <!-- SPARK -->
         <div class="award-level-block" style="margin-bottom:10px;">
           <div class="award-level-title novice">
-            Novice Level
-            <span class="award-level-badge">12 &amp; Under Only</span>
+            SPARK
+            <span class="award-level-badge">Beginner</span>
           </div>
           <div class="award-level-desc">
-            For dancers with limited technical training focused on basic foundational movements, taking no more than <strong>3 technique classes per week</strong>. Example skills: single pirouette, cha&icirc;n&eacute; turns, piqu&eacute; turns, and simple leaps. Limited to one solo per event.
+            For dancers performing routines with <strong>foundational, beginner-level skills</strong>.
           </div>
         </div>
 
-        <!-- Intermediate -->
+        <!-- FIRE -->
         <div class="award-level-block" style="margin-bottom:10px;">
           <div class="award-level-title intermediate">
-            Intermediate Level
+            FIRE
+            <span class="award-level-badge">Intermediate</span>
           </div>
           <div class="award-level-desc">
-            Dancers taking no more than <strong>5 technique classes per week</strong> who can execute basic skills and begin some advanced movements. Example skills: double pirouettes, grand jet&eacute;s, maxi ford turns, double stag leaps, arabesque pitch, and attitude positioning. Dancers may choose to perform up in the Competitive level to be considered for Scholarship Vouchers and Titles.
+            For dancers performing routines with <strong>intermediate-level skills</strong>, executing more advanced technique and movements.
           </div>
         </div>
 
-        <!-- Competitive -->
+        <!-- BLAZE -->
         <div class="award-level-block" style="margin-bottom:10px;">
           <div class="award-level-title competitive">
-            Competitive Level
+            BLAZE
+            <span class="award-level-badge">Advanced</span>
           </div>
           <div class="award-level-desc">
-            Dancers are expected to be technically aware of everything they perform, with <strong>original/creative choreography</strong> and polished, well-rehearsed performances. Example skills: triple pirouettes, leg hold turns, switch leaps, fouett&eacute; turns, turns &agrave; la seconde, calypsos, illusions. Eligible for Regional and National Titles, and overalls including medals, banners, and cash vouchers.
+            For dancers performing routines at the <strong>highest, most advanced technical level</strong>, with polished and well-rehearsed performances.
           </div>
         </div>
 
-        <!-- Adult -->
+        <!-- EMBER -->
         <div class="award-level-block" style="margin-bottom:0;">
           <div class="award-level-title" style="background:#e8e8e8;color:#555;">
-            Adult Level
+            EMBER
+            <span class="award-level-badge" style="background:#fff;color:#555;">Different Abilities / Accessible</span>
           </div>
           <div class="award-level-desc">
-            For routines with an average age of <strong>20 or older</strong>. Routines will be adjudicated but are <strong>not eligible for Overall Awards</strong>.
-            <p style="margin-top:8px;font-size:12px;color:#888;font-style:italic;">Note: We do not have any dancers in the Adult category at this event.</p>
+            For dancers with physical or developmental disabilities. A separate, supportive category dedicated to celebrating every dancer.
           </div>
         </div>
       </div>
@@ -1670,46 +1566,42 @@
           Age Divisions
         </div>
         <div class="award-info-card">
-          Based on age as of <strong>January 1, 2026</strong>. For group routines, the average age of all dancers is used.
+          The average age of all performers is taken as of <strong>January 1, 2026</strong>, dropping any decimal. <em>Example: an 11.8 year old dancer would compete in the 11 year old category.</em>
           <table class="award-score-table" style="margin-top:10px;">
-            <thead><tr><th>Division</th><th>Age Range</th></tr></thead>
+            <thead><tr><th>Division</th></tr></thead>
             <tbody>
-              <tr><td><strong>Mini</strong></td><td>6 &amp; Under</td></tr>
-              <tr><td><strong>Child</strong></td><td>7&ndash;9</td></tr>
-              <tr><td><strong>Junior</strong></td><td>10&ndash;12</td></tr>
-              <tr><td><strong>Teen</strong></td><td>13&ndash;15</td></tr>
-              <tr><td><strong>Senior</strong></td><td>16&ndash;19</td></tr>
-              <tr><td><strong>Adult</strong></td><td>20+</td></tr>
+              <tr><td><strong>4 &amp; Under</strong></td></tr>
+              <tr><td><strong>5&ndash;6 years</strong></td></tr>
+              <tr><td><strong>7&ndash;8 years</strong></td></tr>
+              <tr><td><strong>9&ndash;11 years</strong></td></tr>
+              <tr><td><strong>12&ndash;14 years</strong></td></tr>
+              <tr><td><strong>15&ndash;16 years</strong></td></tr>
+              <tr><td><strong>17&ndash;19 years</strong></td></tr>
+              <tr><td><strong>20 &amp; Over</strong> <span style="color:#888;font-size:12px;font-weight:400;">(adjudication only &mdash; not eligible for high score, specialty, or title awards)</span></td></tr>
             </tbody>
           </table>
         </div>
       </div>
 
-      <!-- Dance Categories -->
+      <!-- Entry Sizes -->
       <div class="award-section-block">
         <div class="award-section-title">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
-          Dance Categories
+          Entry Sizes &amp; Time Limits
         </div>
-        <ul class="award-tag-list">
-          <li>Acro</li>
-          <li>Ballet</li>
-          <li>Character</li>
-          <li>Clogging</li>
-          <li>Contemporary</li>
-          <li>Cultural</li>
-          <li>Hip Hop</li>
-          <li>Jazz</li>
-          <li>Lyrical</li>
-          <li>Modern</li>
-          <li>Musical Theater</li>
-          <li>Open</li>
-          <li>Pointe</li>
-          <li>Pom</li>
-          <li>Showdance</li>
-          <li>Tap</li>
-          <li>Twirling</li>
-        </ul>
+        <table class="award-score-table">
+          <thead><tr><th>Type</th><th>Dancers</th><th>Time Limit</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Solo</strong></td><td>1</td><td>2:45</td></tr>
+            <tr><td><strong>Duo / Trio</strong></td><td>2&ndash;3</td><td>3:00</td></tr>
+            <tr><td><strong>Small Group</strong></td><td>4&ndash;9</td><td>3:00</td></tr>
+            <tr><td><strong>Large Group</strong></td><td>10&ndash;19</td><td>4:00</td></tr>
+            <tr><td><strong>Line</strong></td><td>20+</td><td>4:00</td></tr>
+            <tr><td><strong>Production</strong></td><td>20+</td><td>8:00</td></tr>
+            <tr><td><strong>Mini-Musical</strong></td><td>10+</td><td>8:00</td></tr>
+          </tbody>
+        </table>
+        <p style="margin:8px 0 0;font-size:12px;color:#777;">A 1-point deduction applies for every 5 seconds beyond the time limit. Routines exceeding 4:00 require prior approval and are auto-placed in the high score category.</p>
       </div>
 
       <!-- Scoring System -->
@@ -1719,16 +1611,21 @@
           Scoring System
         </div>
         <div class="award-info-card" style="margin-bottom:10px;">
-          Three judges each have <strong>200 points</strong> (100 for Technique, 100 for Presentation) for a maximum of <strong>600 points</strong> total.
+          Each routine is scored out of <strong>300 points</strong> across three categories:
+          <ul style="margin:8px 0 0;padding-left:18px;font-size:13px;line-height:1.6;">
+            <li><strong>Execution of Technique</strong> &mdash; 35 pts (Transition, Placement &amp; Movement: 20 / Technical Skills: 15)</li>
+            <li><strong>Execution of Performance</strong> &mdash; 30 pts (Projection &amp; Performance: 20 / Uniformity &amp; Use of Stage: 10)</li>
+            <li><strong>Artistry &amp; Innovation</strong> &mdash; 35 pts (Dynamics &amp; Texture: 15 / Style &amp; Expression: 15 / Choreography &amp; Concept: 5)</li>
+          </ul>
         </div>
         <table class="award-score-table">
-          <thead><tr><th>Tier</th><th>Score Range</th></tr></thead>
+          <thead><tr><th>Adjudicated Tier</th><th>Score Range</th></tr></thead>
           <tbody>
-            <tr><td class="tier-name" style="color:#cc1122;">Elite Gold</td><td>570&ndash;600</td></tr>
-            <tr><td class="tier-name" style="color:#d4a017;">High Gold</td><td>546&ndash;569.4</td></tr>
-            <tr><td class="tier-name" style="color:#c5960c;">Gold</td><td>522&ndash;545.4</td></tr>
-            <tr><td class="tier-name" style="color:#8a8a8a;">High Silver</td><td>498&ndash;521.4</td></tr>
-            <tr><td class="tier-name" style="color:#999;">Silver</td><td>480&ndash;497.4</td></tr>
+            <tr><td class="tier-name" style="color:#1a1a1a;">Titanium</td><td>297&ndash;300</td></tr>
+            <tr><td class="tier-name" style="color:#7e3ed1;">Elite Platinum</td><td>290&ndash;296.9</td></tr>
+            <tr><td class="tier-name" style="color:#cc1122;">Platinum</td><td>285&ndash;289.9</td></tr>
+            <tr><td class="tier-name" style="color:#d4a017;">High Gold</td><td>280&ndash;284.9</td></tr>
+            <tr><td class="tier-name" style="color:#c5960c;">Gold</td><td>279.9 &amp; below</td></tr>
           </tbody>
         </table>
       </div>
@@ -1748,17 +1645,27 @@
         </div>
       </div>
 
-      <!-- Overall Awards -->
+      <!-- High Score / Overall Awards -->
       <div class="award-section-block">
         <div class="award-section-title">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
-          Overall Awards
+          High Score Awards
         </div>
         <div class="award-info-card">
-          Novice, Intermediate, and Competitive routines receive overall awards at each session per age group (Mini, Child, Junior, Teen, and Senior).
-          <p style="margin:10px 0 4px;font-size:13px;"><strong>Competitive Overalls:</strong> Soloists awarded up to <strong>10th place</strong> (20+ dancers). All other categories up to <strong>5th place</strong>. Must earn Elite Gold or High Gold.</p>
-          <p style="margin:4px 0;font-size:13px;"><strong>Intermediate Overalls:</strong> Soloists awarded up to <strong>10th place</strong> (20+ dancers). All other categories up to <strong>5th place</strong> (10+ routines) or <strong>3rd place</strong> (fewer than 10). Must earn Elite Gold, High Gold, or Gold.</p>
-          <p style="margin:4px 0;font-size:13px;"><strong>Novice Overalls:</strong> Soloists awarded up to <strong>5th place</strong> (20+ dancers). All other categories up to <strong>3rd place</strong>. All Novice routines are eligible regardless of score.</p>
+          High Score awards are presented in <strong>each level</strong> and <strong>each age group</strong> for Solos, Duos/Trios, Small Groups, Large Groups, Lines, Mini-Musicals, and Productions, where applicable.
+          <table class="award-score-table" style="margin-top:10px;">
+            <thead><tr><th># of Routines</th><th>Awards Given</th></tr></thead>
+            <tbody>
+              <tr><td>1&ndash;3</td><td>1 winner</td></tr>
+              <tr><td>4&ndash;5</td><td>1 winner + 1 runner-up</td></tr>
+              <tr><td>6&ndash;8</td><td>1 winner + 2 runners-up</td></tr>
+              <tr><td>9&ndash;13</td><td>1 winner + 4 runners-up</td></tr>
+              <tr><td>14&ndash;16</td><td>1 winner + 7 runners-up</td></tr>
+              <tr><td>17&ndash;25</td><td>1 winner + 9 runners-up</td></tr>
+              <tr><td>25+</td><td>1 winner + 11 runners-up</td></tr>
+            </tbody>
+          </table>
+          <p style="margin:10px 0 0;font-size:12px;color:#888;font-style:italic;">The 20 &amp; Over division is not eligible for high score, specialty, or title awards. Ties are broken at the discretion of the on-site judging panel.</p>
         </div>
       </div>
 
@@ -1770,53 +1677,66 @@
         </div>
         <div class="award-info-card">
           <ul class="award-tag-list" style="margin-bottom:10px;">
-            <li>Student Choreography</li>
-            <li>High Score Novice</li>
-            <li>High Score Intermediate</li>
-            <li>High Score Competitive</li>
-            <li>Entertainment Award</li>
-            <li>Creative Concepts</li>
-            <li>Choreography Award</li>
-            <li>Spirit Award</li>
-            <li>ADCC Studio of Excellence</li>
+            <li>Inferno Showcase</li>
+            <li>Specialty / Judges' Choice</li>
+            <li>Best Improv (11 &amp; Under)</li>
+            <li>Best Improv (12 &amp; Over)</li>
+            <li>Stellar Impact Award</li>
+            <li>Staff Choice Pins</li>
           </ul>
           <p style="margin:8px 0 4px;font-size:13px;color:#666;">
-            <strong>High Score</strong> awards go to the highest-scoring group routine in each level (Novice, Intermediate, Competitive). Winners receive a <strong>Platinum Ticket</strong> to compete at the Platinum Circle at Nationals.
+            <strong>Inferno Showcase:</strong> Stand-out routines selected by the judges to perform in the Inferno Showcase &mdash; chosen on entertainment and creativity, not adjudicated scores.
           </p>
           <p style="margin:4px 0;font-size:13px;color:#666;">
-            The <strong>ADCC Studio of Excellence</strong> is a staff-choice award honoring sportsmanship, kindness, dedication to education, and overall excellence. All regional winners are put to an online vote for <strong>Studio of the Year</strong>, which includes a cash prize and banner.
+            <strong>Specialty / Judges' Choice:</strong> Awarded several times per competition to the judges' standout routines, regardless of score.
+          </p>
+          <p style="margin:4px 0;font-size:13px;color:#666;">
+            <strong>Stellar Impact Award:</strong> Honors loyal studios demonstrating positivity, kindness, and support. A <strong>$250 donation</strong> is made to a non-profit in their honor.
+          </p>
+          <p style="margin:4px 0;font-size:13px;color:#666;">
+            <strong>Staff Choice Pins:</strong> Awarded to dancers who demonstrate kindness, courteousness, and helpfulness throughout the event.
           </p>
         </div>
       </div>
 
-      <!-- Titles -->
+      <!-- Studio Awards -->
       <div class="award-section-block">
         <div class="award-section-title">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><path d="M12 8v8"/><path d="M8 12h8"/></svg>
-          Titles
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          Studio Awards
         </div>
         <div class="award-info-card">
-          No additional fee required. Soloists must compete in the Competitive level and achieve an Elite Gold or High Gold score. Title winners are judges&rsquo; choice. Intermediate level dancers are not considered for Title.
+          For studios with <strong>10+ routines</strong>. Categories:
+          <ul class="award-tag-list" style="margin-top:8px;">
+            <li>Fans on Fire</li>
+            <li>Sportsmanship</li>
+            <li>Artistry</li>
+            <li>Performance</li>
+            <li>Technique</li>
+            <li>Studio on Fire</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Title Competition -->
+      <div class="award-section-block" style="margin-bottom:0;">
+        <div class="award-section-title">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><path d="M12 8v8"/><path d="M8 12h8"/></svg>
+          Title Competition (Solos)
+        </div>
+        <div class="award-info-card">
+          Open to all soloists regardless of skill level. Routine must receive a <strong>Platinum or higher</strong> adjudication to win. Includes a virtual pre-competition interview and an on-site improv experience covering two dance styles.
           <table class="award-score-table" style="margin-top:10px;">
             <thead><tr><th>Title</th><th>Ages</th></tr></thead>
             <tbody>
-              <tr><td><strong>Petite Headliner</strong></td><td>7&ndash;9</td></tr>
-              <tr><td><strong>Junior Headliner</strong></td><td>10&ndash;12</td></tr>
-              <tr><td><strong>Teen Headliner</strong></td><td>13&ndash;15</td></tr>
-              <tr><td><strong>Senior Headliner</strong></td><td>16&ndash;19</td></tr>
+              <tr><td><strong>Tiny Inferno Titleist</strong></td><td>6 &amp; Under</td></tr>
+              <tr><td><strong>Petite Inferno Titleist</strong></td><td>7&ndash;8</td></tr>
+              <tr><td><strong>Junior Inferno Titleist</strong></td><td>9&ndash;11</td></tr>
+              <tr><td><strong>Teen Inferno Titleist</strong></td><td>12&ndash;14</td></tr>
+              <tr><td><strong>Senior Inferno Titleist</strong></td><td>15 &amp; Over</td></tr>
             </tbody>
           </table>
-        </div>
-      </div>
-
-      <!-- Nationals -->
-      <div class="award-section-block" style="margin-bottom:0;">
-        <div class="award-section-title">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
-          Nationals
-        </div>
-        <div class="award-info-card">
-          Nationals awards nearly <strong>$500,000 in college scholarships</strong>, includes convention classes, a <strong>Platinum Circle Dance Off</strong>, and an <strong>awards gala</strong>.
+          <p style="margin:10px 0 0;font-size:12px;color:#888;font-style:italic;">Dancers in the 20 &amp; Over age group are not eligible to compete for Title.</p>
         </div>
       </div>
 
@@ -1845,10 +1765,9 @@
 
   <div class="section-label">Schedule by Day</div>
   <div class="day-tabs">
-    <button class="day-tab active" onclick="showDay('all',this)">Full Schedule<span class="tab-sub">All 3 Days</span></button>
-    <button class="day-tab" onclick="showDay('fri',this)">Friday<span class="tab-sub">April 10</span></button>
-    <button class="day-tab" onclick="showDay('sat',this)">Saturday<span class="tab-sub">April 11</span></button>
-    <button class="day-tab" onclick="showDay('sun',this)">Sunday<span class="tab-sub">April 12</span></button>
+    <button class="day-tab active" onclick="showDay('all',this)">Full Schedule<span class="tab-sub">Both Days</span></button>
+    <button class="day-tab" onclick="showDay('fri',this)">Friday<span class="tab-sub">May 8</span></button>
+    <button class="day-tab" onclick="showDay('sat',this)">Saturday<span class="tab-sub">May 9</span></button>
   </div>
 
   <div class="past-toggle-bar" id="pastToggleBar">
@@ -1916,8 +1835,8 @@
   </a>
 </div>
 <div class="footer-note">
-  <strong>Headliners Dance Competition</strong> · April 10–12, 2026 · The Stockbridge Theater at Pinkerton Academy · <a class="gps-btn-footer" href="https://maps.apple/p/QyFEj3q6vj1CbD" target="_blank" rel="noopener" title="Opens in Apple Maps"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> GPS Directions</a><br>
-  <span style="display:block;margin-top:6px;color:#666"><span style="color:#2e6285">●</span> Novice &nbsp;<span style="color:#5a3a8a">●</span> Intermediate &nbsp;<span style="color:#cc1122">●</span> Competitive &nbsp;·&nbsp; All times are approximate stage times · Check each routine for individual arrival times</span>
+  <strong>Inferno Dance Competition</strong> · May 8–9, 2026 · Littleton PAC, 56 King St, Littleton, MA 01460 · <a class="gps-btn-footer" href="https://maps.apple.com/?q=Littleton+PAC&address=56+King+St,Littleton,MA+01460" target="_blank" rel="noopener" title="Opens in Maps"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> GPS Directions</a><br>
+  <span style="display:block;margin-top:6px;color:#666"><span style="color:#2e6285">●</span> SPARK &nbsp;<span style="color:#5a3a8a">●</span> FIRE &nbsp;<span style="color:#cc1122">●</span> BLAZE &nbsp;·&nbsp; All times are approximate stage times · Check each routine for individual arrival times</span>
 </div>
 
 <!-- DIRECTOR SCHEDULE-SHIFT PANEL (hidden unless ?token= is present) -->
@@ -1941,16 +1860,16 @@
 
 <script>
   /* ===== GOOGLE SHEETS CONFIG ===== */
-  var SHEET_ID = '16CLEe2xuHGYAlvxdCRYHUfGRDW4390o-';
-  var SCHEDULE_GID = '2110361654';
-  var AWARDS_GID = '1916955217';
+  var SHEET_ID = '1Nv0n6Z09taK9Nhi33jKgDC6jyIhFyJWghIooXJcr56c';
+  var SCHEDULE_GID = '0';
+  var AWARDS_GID = '4046977';
   var SCHEDULE_URL = 'https://docs.google.com/spreadsheets/d/' + SHEET_ID + '/gviz/tq?tqx=out:csv&gid=' + SCHEDULE_GID;
   var AWARDS_URL = 'https://docs.google.com/spreadsheets/d/' + SHEET_ID + '/gviz/tq?tqx=out:csv&gid=' + AWARDS_GID;
   var AWARDS_POLL_INTERVAL = 30000; // 30 seconds
 
   /* ===== ROUTINE TOTALS SHEET CONFIG ===== */
-  var TOTALS_SHEET_ID = '1JhYPfcynIsS8ywAhQN0sDt27uzyV7e2tVwpMVHxhwig';
-  var TOTALS_GID = '0';
+  var TOTALS_SHEET_ID = SHEET_ID;
+  var TOTALS_GID = '481188824';
   var TOTALS_URL = 'https://docs.google.com/spreadsheets/d/' + TOTALS_SHEET_ID + '/gviz/tq?tqx=out:csv&gid=' + TOTALS_GID;
   var TOTALS_POLL_INTERVAL = 60000; // 60 seconds
   var _totalsHash = '';
@@ -2023,18 +1942,28 @@
 
   /* ===== LEVEL & AGE MAPPINGS ===== */
   var LEVEL_TAG_CLASS = {
-    'Novice': 'tag-novice',
-    'Intermediate': 'tag-intermediate',
-    'Competitive': 'tag-advanced'
+    'EMBER': 'tag-novice',
+    'SPARK': 'tag-novice',
+    'FIRE': 'tag-intermediate',
+    'BLAZE': 'tag-advanced'
   };
   var LEVEL_DATA = {
-    'Novice': 'Novice',
-    'Intermediate': 'Intermediate',
-    'Competitive': 'Advanced'
+    'EMBER': 'Novice',
+    'SPARK': 'Novice',
+    'FIRE': 'Intermediate',
+    'BLAZE': 'Advanced'
   };
   var AGE_TAG_CLASS = {
-    'Mini': 'tag-tiny',
-    'Child': 'tag-petite',
+    '4 & Under': 'tag-tiny',
+    '5-6': 'tag-tiny',
+    '7-8': 'tag-petite',
+    '9-11': 'tag-junior',
+    '12-14': 'tag-teen',
+    '15-16': 'tag-senior',
+    '17-19': 'tag-senior',
+    '20 & Over': 'tag-senior',
+    'Tiny': 'tag-tiny',
+    'Petite': 'tag-petite',
     'Junior': 'tag-junior',
     'Teen': 'tag-teen',
     'Senior': 'tag-senior'
@@ -2627,10 +2556,10 @@
     var awardsTimeText = awardsEl ? awardsEl.textContent.replace(/^.*Awards\s*/, '').trim() : '';
     var day = row.dataset.day;
 
-    var dateMap = { fri: '2026-04-10', sat: '2026-04-11', sun: '2026-04-12' };
+    var dateMap = { fri: '2026-05-08', sat: '2026-05-09' };
     var dateStr = dateMap[day];
 
-    var location = 'The Stockbridge Theater at Pinkerton Academy, Derry, NH';
+    var location = 'Littleton PAC, 56 King St, Littleton, MA 01460';
 
     if (type === 'awards') {
       if (!dateStr || !awardsTimeText) return;
@@ -2650,7 +2579,7 @@
       var desc = 'Awards Ceremony for: ' + title +
         (dancer ? '\\nDancer(s): ' + dancer : '') +
         '\\nAwards Time: ' + awardsTimeText +
-        '\\n\\nHeadliners Dance Competition \u2014 April 10\u201312, 2026\\nThe Stockbridge Theater at Pinkerton Academy, Derry, NH\\nMain Entrance GPS: https://maps.apple/p/QyFEj3q6vj1CbD';
+        '\\n\\nInferno Dance Competition \u2014 May 8\u20139, 2026\\nLittleton PAC, 56 King St, Littleton, MA 01460\\nGPS: https://maps.apple.com/?q=Littleton+PAC&address=56+King+St,Littleton,MA+01460';
       var ics = buildICS(summary, desc, location, startDT, endDT, 'Awards for ' + title, 'awards');
       triggerDownload(ics, title + '_awards_reminder');
       showToast('Awards reminder downloaded');
@@ -2665,7 +2594,7 @@
         (dancer ? '\\nDancer(s): ' + dancer : '') +
         '\\nStage Time: ' + timeStage +
         (timeArrive ? '\\n' + timeArrive : '') +
-        '\\n\\nHeadliners Dance Competition \u2014 April 10\u201312, 2026\\nThe Stockbridge Theater at Pinkerton Academy, Derry, NH\\nMain Entrance GPS: https://maps.apple/p/QyFEj3q6vj1CbD';
+        '\\n\\nInferno Dance Competition \u2014 May 8\u20139, 2026\\nLittleton PAC, 56 King St, Littleton, MA 01460\\nGPS: https://maps.apple.com/?q=Littleton+PAC&address=56+King+St,Littleton,MA+01460';
       var ics = buildICS(summary, desc, location, startDT, endDT, title, 'routine');
       triggerDownload(ics, title + '_reminder');
       showToast('Routine reminder downloaded');
@@ -2707,7 +2636,7 @@
   }
 
   function buildICS(summary, desc, location, start, end, title, type) {
-    var uid = 'hdl-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9) + '@headliners';
+    var uid = 'inf-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9) + '@inferno';
     var now = fmtICS(new Date());
     var alarmTrigger = type === 'awards' ? 'PT30M' : 'PT2H';
     var alarmDesc = type === 'awards'
@@ -2716,7 +2645,7 @@
     var lines = [
       'BEGIN:VCALENDAR',
       'VERSION:2.0',
-      'PRODID:-//Headliners Schedule//EN',
+      'PRODID:-//Inferno Dance Schedule//EN',
       'CALSCALE:GREGORIAN',
       'METHOD:PUBLISH',
       'BEGIN:VTIMEZONE',
@@ -3136,71 +3065,6 @@
 
     updateCounts();
   }
-
-/* ===== CELEBRATION POPUP + CONFETTI ===== */
-  (function() {
-    var canvas = document.getElementById('confetti-canvas');
-    var ctx = canvas.getContext('2d');
-    var pieces = [];
-    var running = true;
-    var colors = ['#cc1122','#f5b8b8','#FFD700','#ff6b6b','#4ecdc4','#ff9ff3','#feca57','#48dbfb','#ff6348','#1dd1a1'];
-
-    function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-    resize();
-    window.addEventListener('resize', resize);
-
-    for (var i = 0; i < 150; i++) {
-      pieces.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height - canvas.height,
-        w: Math.random() * 10 + 5,
-        h: Math.random() * 6 + 3,
-        color: colors[Math.floor(Math.random() * colors.length)],
-        vy: Math.random() * 3 + 2,
-        vx: Math.random() * 2 - 1,
-        rot: Math.random() * 360,
-        rv: Math.random() * 6 - 3,
-        o: 1
-      });
-    }
-
-    function draw() {
-      if (!running) return;
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      var alive = false;
-      for (var i = 0; i < pieces.length; i++) {
-        var p = pieces[i];
-        p.y += p.vy;
-        p.x += p.vx;
-        p.rot += p.rv;
-        if (p.y > canvas.height + 20) {
-          p.o -= 0.02;
-          if (p.o <= 0) continue;
-        }
-        alive = true;
-        ctx.save();
-        ctx.globalAlpha = Math.max(0, p.o);
-        ctx.translate(p.x, p.y);
-        ctx.rotate(p.rot * Math.PI / 180);
-        ctx.fillStyle = p.color;
-        ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
-        ctx.restore();
-      }
-      if (alive) requestAnimationFrame(draw);
-      else { canvas.remove(); }
-    }
-    requestAnimationFrame(draw);
-
-    window.closeCelebration = function() {
-      var popup = document.getElementById('celebrationPopup');
-      popup.classList.add('closing');
-      running = false;
-      setTimeout(function() {
-        popup.remove();
-        canvas.remove();
-      }, 300);
-    };
-  })();
 
 /* ===== BOOT: Fetch schedule from Google Sheets ===== */
   fetchSchedule();
