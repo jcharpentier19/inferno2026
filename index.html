@@ -1864,14 +1864,18 @@
   var SHEET_ID = '1Nv0n6Z09taK9Nhi33jKgDC6jyIhFyJWghIooXJcr56c';
   var SCHEDULE_GID = '0';
   var AWARDS_GID = '4046977';
-  var SCHEDULE_URL = 'https://docs.google.com/spreadsheets/d/' + SHEET_ID + '/gviz/tq?tqx=out:csv&gid=' + SCHEDULE_GID;
-  var AWARDS_URL = 'https://docs.google.com/spreadsheets/d/' + SHEET_ID + '/gviz/tq?tqx=out:csv&gid=' + AWARDS_GID;
+  // Use the legacy /export endpoint instead of /gviz/tq because the new
+  // Google Sheets "dropdown chip" cells export as null via gviz but as
+  // their underlying value via the legacy CSV export. Several columns
+  // (Age, Group, Level, etc.) are configured as dropdown chips.
+  var SCHEDULE_URL = 'https://docs.google.com/spreadsheets/d/' + SHEET_ID + '/export?format=csv&gid=' + SCHEDULE_GID;
+  var AWARDS_URL = 'https://docs.google.com/spreadsheets/d/' + SHEET_ID + '/export?format=csv&gid=' + AWARDS_GID;
   var AWARDS_POLL_INTERVAL = 30000; // 30 seconds
 
   /* ===== ROUTINE TOTALS SHEET CONFIG ===== */
   var TOTALS_SHEET_ID = SHEET_ID;
   var TOTALS_GID = '481188824';
-  var TOTALS_URL = 'https://docs.google.com/spreadsheets/d/' + TOTALS_SHEET_ID + '/gviz/tq?tqx=out:csv&gid=' + TOTALS_GID;
+  var TOTALS_URL = 'https://docs.google.com/spreadsheets/d/' + TOTALS_SHEET_ID + '/export?format=csv&gid=' + TOTALS_GID;
   var TOTALS_POLL_INTERVAL = 60000; // 60 seconds
   var _totalsHash = '';
 
