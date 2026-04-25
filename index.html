@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Inferno Dance Competition — May 2026</title>
+<title>Inferno - AFDS</title>
 <meta property="og:title" content="Inferno Dance Competition — May 2026">
 <meta property="og:description" content="Littleton PAC — 56 King St, Littleton, MA · May 8–9, 2026">
 <meta property="og:type" content="website">
@@ -1970,6 +1970,29 @@
     'Senior': 'tag-senior'
   };
 
+  /* ===== ROW PICKER + COMPOSITE MATCH KEY =====
+     Both the schedule and awards tabs share Date / Session / Routine
+     / Dancer(s) for the same routine. We use this composite key as a
+     fallback to bind awards rows to routine cards when the '#' column
+     is blank on the schedule tab. */
+  function pickField(r) {
+    for (var i = 1; i < arguments.length; i++) {
+      var v = r[arguments[i]];
+      if (v !== undefined && v !== null && String(v).trim() !== '') return String(v).trim();
+    }
+    return '';
+  }
+  function matchKey(r) {
+    var date = pickField(r, 'Date');
+    var routine = pickField(r, 'Routine', 'Title');
+    var dancers = pickField(r, 'Dancer(s)');
+    if (!routine) return '';
+    return (date + '|' + routine + '|' + dancers)
+      .toLowerCase()
+      .replace(/\s+/g, ' ')
+      .trim();
+  }
+
   /* ===== SESSION KEY MAPPER =====
      Translates the sheet's free-form "Session" labels (e.g. "Fri PM",
      "Sat Am", "Sat AFT", "Sun AM", "Sun AFT") into the canonical
@@ -2056,6 +2079,7 @@
       row.dataset.age = ageDivision;
       row.dataset.txt = searchTxt;
       row.dataset.routineNum = routineId;
+      row.dataset.matchKey = matchKey(r);
 
       // Dot column (desktop timeline) — show "#N" only when sheet has a routine number
       var dotCol = document.createElement('div');
@@ -2194,43 +2218,61 @@
     loadShiftForAll();
   }
 
-  /* ===== AWARD DISPLAY LOGIC ===== */
+  /* ===== AWARD DISPLAY LOGIC =====
+     For each row in the awards tab: try to bind to a routine card by
+     Routine # first; if that fails (or # is blank, which is the case
+     while the schedule tab is still being scheduled), fall back to a
+     composite Date + Routine + Dancer(s) match. Award containers are
+     cleared every refresh so deletions in the sheet propagate. */
   function applyAwards(awardsData) {
-    // Build lookup by routine number
-    var awardMap = {};
+    // Build lookups across rendered routine rows
+    var rows = document.querySelectorAll('.routine-row');
+    var byNum = {};
+    var byKey = {};
+    rows.forEach(function(row) {
+      var num = row.dataset.routineNum;
+      var key = row.dataset.matchKey;
+      // Skip the synthetic 'r{idx}' ids we generate when the sheet '#' is blank
+      if (num && !/^r\d+$/.test(num)) byNum[num] = row;
+      if (key) byKey[key] = row;
+    });
+
+    // Clear all award badges first so removed awards disappear on refresh
+    document.querySelectorAll('.award-results').forEach(function(c) {
+      c.innerHTML = '';
+      c.style.display = 'none';
+    });
+
     awardsData.forEach(function(a) {
-      var num = a['Routine #'];
-      if (!num) return;
-      awardMap[num] = {
+      var info = {
         adjudication: (a['Adjudication'] || '').trim(),
         special: (a['Special Awards'] || '').trim(),
         special2: (a['Special Awards 2'] || '').trim(),
         special3: (a['Special Awards 3'] || '').trim()
       };
-    });
+      if (!info.adjudication && !info.special && !info.special2 && !info.special3) return;
 
-    // Update each routine card
-    Object.keys(awardMap).forEach(function(num) {
-      var info = awardMap[num];
-      var container = document.getElementById('awards-' + num);
-      if (!container) return;
-
-      // Skip if nothing to show
-      if (!info.adjudication && !info.special && !info.special2 && !info.special3) {
-        container.style.display = 'none';
-        container.innerHTML = '';
-        return;
+      // Resolve target row: by # first, then by composite key
+      var num = pickField(a, 'Routine #', '#');
+      var row = num ? byNum[num] : null;
+      if (!row) {
+        var k = matchKey(a);
+        if (k) row = byKey[k];
       }
+      if (!row) return;
+      var container = row.querySelector('.award-results');
+      if (!container) return;
 
       var html = '';
 
-      // Adjudication tier (e.g., "Platinum", "High Gold", "Gold", "High Silver", "Silver")
+      // Adjudication tier — Inferno: Titanium / Elite Platinum / Platinum / High Gold / Gold.
+      // Legacy aliases (Elite Gold, High Silver, Silver) still handled for backward compatibility.
       if (info.adjudication) {
         var adj = info.adjudication;
         var adjLower = adj.toLowerCase().replace(/\s+/g, '');
         var adjClass = 'award-tag-gold';
         var adjIcon = '\uD83E\uDD47'; // medal
-        if (adjLower === 'platinum' || adjLower === 'elitegold') {
+        if (adjLower === 'titanium' || adjLower === 'eliteplatinum' || adjLower === 'platinum' || adjLower === 'elitegold') {
           adjClass = 'award-tag-platinum';
           adjIcon = '\uD83D\uDC8E';
         } else if (adjLower === 'highgold') {
