@@ -1510,10 +1510,99 @@
   @keyframes popupSlideDown {
     to { transform: translateY(20px); opacity: 0; }
   }
+  .popup-card { overflow: visible; }
+  .popup-star {
+    position: absolute;
+    pointer-events: none;
+    background: var(--rose);
+    clip-path: polygon(50% 0%, 60% 40%, 100% 50%, 60% 60%, 50% 100%, 40% 60%, 0% 50%, 40% 40%);
+    filter: drop-shadow(0 0 6px rgba(204, 17, 34, 0.6));
+    animation: popup-star-twinkle 2.4s ease-in-out infinite;
+    opacity: 0;
+  }
+  .popup-star.gold {
+    background: #e8b94a;
+    filter: drop-shadow(0 0 6px rgba(232, 185, 74, 0.7));
+  }
+  .popup-star.cream {
+    background: #fff;
+    filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.9));
+  }
+  @keyframes popup-star-twinkle {
+    0%, 100% { opacity: 0;    transform: scale(0.3) rotate(0deg); }
+    45%      { opacity: 1;    transform: scale(1.1) rotate(160deg); }
+    55%      { opacity: 0.95; transform: scale(1)   rotate(200deg); }
+  }
+  .popup-star.float {
+    animation: popup-star-float 3.2s ease-in-out infinite;
+  }
+  @keyframes popup-star-float {
+    0%, 100% { opacity: 0.2; transform: translateY(0)    scale(0.6) rotate(0deg); }
+    50%      { opacity: 1;   transform: translateY(-6px) scale(1)   rotate(180deg); }
+  }
 </style>
 </head>
 <body>
 
+<!-- ===== PHOTO / VIDEO POLICY POPUP ===== -->
+<div class="popup-overlay" id="photoPolicyPopup" style="display:none;" role="dialog" aria-modal="true" aria-labelledby="photoPolicyTitle" onclick="if(event.target===this)closePhotoPolicyPopup()">
+  <div class="popup-card">
+    <span class="popup-star"      aria-hidden="true" style="top:-22px;  left:-14px;  width:22px; height:22px; animation-delay:0s;"></span>
+    <span class="popup-star gold" aria-hidden="true" style="top:-12px;  left:90px;   width:14px; height:14px; animation-delay:0.6s;"></span>
+    <span class="popup-star cream float" aria-hidden="true" style="top:-18px;  right:50px;  width:10px; height:10px; animation-delay:0.3s;"></span>
+    <span class="popup-star"      aria-hidden="true" style="top:-26px;  right:-16px; width:24px; height:24px; animation-delay:1.1s;"></span>
+    <span class="popup-star gold float" aria-hidden="true" style="top:80px;   right:-22px; width:18px; height:18px; animation-delay:0.9s;"></span>
+    <span class="popup-star cream" aria-hidden="true" style="top:160px;  right:-12px; width:10px; height:10px; animation-delay:1.4s;"></span>
+    <span class="popup-star gold" aria-hidden="true" style="bottom:60px; right:-20px; width:16px; height:16px; animation-delay:0.4s;"></span>
+    <span class="popup-star"      aria-hidden="true" style="bottom:-18px;right:30px;  width:18px; height:18px; animation-delay:0.7s;"></span>
+    <span class="popup-star cream float" aria-hidden="true" style="bottom:-22px;right:-12px; width:14px; height:14px; animation-delay:1.6s;"></span>
+    <span class="popup-star gold" aria-hidden="true" style="bottom:-20px;left:60px;   width:20px; height:20px; animation-delay:0.2s;"></span>
+    <span class="popup-star"      aria-hidden="true" style="bottom:-14px;left:-16px;  width:16px; height:16px; animation-delay:1.3s;"></span>
+    <span class="popup-star cream" aria-hidden="true" style="bottom:90px; left:-14px;  width:10px; height:10px; animation-delay:0.55s;"></span>
+    <span class="popup-star gold float" aria-hidden="true" style="top:120px;  left:-22px;  width:18px; height:18px; animation-delay:1s;"></span>
+    <span class="popup-star"      aria-hidden="true" style="top:50px;   left:-18px;  width:14px; height:14px; animation-delay:0.15s;"></span>
+    <div class="popup-emoji">🎬✨</div>
+    <div class="popup-title" id="photoPolicyTitle">Welcome to <span>Inferno</span>!</div>
+    <div class="popup-body">
+      Get ready for an <strong>incredible</strong> day of dancing &mdash; these performers have worked so hard, and we cannot wait for you to see them shine on stage! 💃🔥
+      <br><br>
+      One <strong>important</strong> reminder: <strong>no photos or videos</strong> may be taken during performances. If anyone is caught filming, the routine will be <strong>disqualified</strong> &mdash; and we would hate for that to happen to your dancer.
+    </div>
+    <div class="popup-note">
+      📸 <strong>Good news!</strong> Professional photos and videos of every routine will be available after the competition &mdash; so you can sit back, relax, and just enjoy the show.
+      <br><br>
+      💬 <strong>Please share this with friends and family</strong> joining you today so everyone is on the same page!
+    </div>
+    <button type="button" class="popup-close-btn" onclick="closePhotoPolicyPopup()">
+      Got it &mdash; let&rsquo;s enjoy the show! ✨
+    </button>
+  </div>
+</div>
+
+<script>
+  (function () {
+    try {
+      if (sessionStorage.getItem('photoPolicyDismissed') === '1') return;
+    } catch (e) { /* sessionStorage unavailable — show anyway */ }
+    var el = document.getElementById('photoPolicyPopup');
+    if (el) el.style.display = 'flex';
+  })();
+  function closePhotoPolicyPopup() {
+    var el = document.getElementById('photoPolicyPopup');
+    if (!el) return;
+    el.classList.add('closing');
+    try { sessionStorage.setItem('photoPolicyDismissed', '1'); } catch (e) {}
+    setTimeout(function () {
+      if (el.parentNode) el.parentNode.removeChild(el);
+    }, 260);
+  }
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') {
+      var el = document.getElementById('photoPolicyPopup');
+      if (el && el.style.display !== 'none') closePhotoPolicyPopup();
+    }
+  });
+</script>
 
 <!-- HERO -->
 <div class="hero">
