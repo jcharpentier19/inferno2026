@@ -1637,15 +1637,6 @@
 
 <script>
   (function () {
-    try {
-      if (sessionStorage.getItem('congratsPopupDismissed') === '1') {
-        if (sessionStorage.getItem('voteInstagramDismissed') !== '1') {
-          var v = document.getElementById('voteInstagramPopup');
-          if (v) v.style.display = 'flex';
-        }
-        return;
-      }
-    } catch (e) { /* sessionStorage unavailable — show anyway */ }
     var el = document.getElementById('photoPolicyPopup');
     if (el) el.style.display = 'flex';
   })();
@@ -1653,12 +1644,8 @@
     var el = document.getElementById('photoPolicyPopup');
     if (!el) return;
     el.classList.add('closing');
-    try { sessionStorage.setItem('congratsPopupDismissed', '1'); } catch (e) {}
     setTimeout(function () {
       if (el.parentNode) el.parentNode.removeChild(el);
-      try {
-        if (sessionStorage.getItem('voteInstagramDismissed') === '1') return;
-      } catch (e) {}
       var v = document.getElementById('voteInstagramPopup');
       if (v) v.style.display = 'flex';
     }, 260);
@@ -1667,7 +1654,6 @@
     var el = document.getElementById('voteInstagramPopup');
     if (!el) return;
     el.classList.add('closing');
-    try { sessionStorage.setItem('voteInstagramDismissed', '1'); } catch (e) {}
     setTimeout(function () {
       if (el.parentNode) el.parentNode.removeChild(el);
     }, 260);
