@@ -1653,27 +1653,42 @@
   }
   .afds-balloon {
     position: absolute;
-    bottom: -120px;
-    width: 46px;
-    height: 58px;
+    bottom: -160px;
+    width: 90px;
+    height: 112px;
     border-radius: 50% 50% 48% 48%;
-    box-shadow: inset -6px -10px 14px rgba(0,0,0,0.25), inset 6px 6px 10px rgba(255,255,255,0.18);
+    box-shadow: inset -10px -16px 22px rgba(0,0,0,0.28), inset 8px 8px 14px rgba(255,255,255,0.20);
     will-change: transform, opacity;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+  .afds-balloon span {
+    color: #fff;
+    font-family: 'Playfair Display', serif;
+    font-weight: 800;
+    font-size: 17px;
+    line-height: 1;
+    letter-spacing: 0.5px;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.45);
+    padding: 0 6px;
+    pointer-events: none;
   }
   .afds-balloon::before {
     content: '';
     position: absolute;
-    bottom: -6px; left: 50%;
-    width: 8px; height: 8px;
+    bottom: -10px; left: 50%;
+    width: 12px; height: 12px;
     background: inherit;
     transform: translateX(-50%) rotate(45deg);
   }
   .afds-balloon::after {
     content: '';
     position: absolute;
-    bottom: -90px; left: 50%;
-    width: 1px; height: 90px;
-    background: rgba(120,120,120,0.55);
+    bottom: -130px; left: 50%;
+    width: 1.5px; height: 130px;
+    background: rgba(120,120,120,0.6);
     transform: translateX(-50%);
   }
   .afds-balloon.red   { background: radial-gradient(circle at 30% 28%, #ff5a6a 0%, #d61326 45%, #8a0814 100%); }
@@ -1760,16 +1775,22 @@
   (function () {
     var layer = document.getElementById('balloonLayer');
     if (!layer) return;
+    var phrases = ['YOU ROCK!', 'Ate', 'Slay', 'AFine', 'Shine', 'No crumbs', '44!'];
 
     function spawnBalloon() {
       var b = document.createElement('div');
       var isRed = Math.random() < 0.55;
       b.className = 'afds-balloon ' + (isRed ? 'red' : 'black');
-      var size = 36 + Math.random() * 28;
+      var size = 78 + Math.random() * 38;
       b.style.width = size + 'px';
       b.style.height = (size * 1.25) + 'px';
-      b.style.left = (Math.random() * 96) + 'vw';
-      var duration = 9 + Math.random() * 6;
+      b.style.left = (Math.random() * 92) + 'vw';
+      var phrase = phrases[Math.floor(Math.random() * phrases.length)];
+      var text = document.createElement('span');
+      text.textContent = phrase;
+      text.style.fontSize = Math.max(13, Math.round(size * 0.20)) + 'px';
+      b.appendChild(text);
+      var duration = 6 + Math.random() * 3.5;
       var anim = Math.random() < 0.5 ? 'balloonRise' : 'balloonRiseAlt';
       b.style.animation = anim + ' ' + duration + 's linear forwards';
       b.style.animationDelay = (Math.random() * 0.4) + 's';
