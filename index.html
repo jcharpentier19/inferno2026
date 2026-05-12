@@ -1751,7 +1751,7 @@
           w: 6 + Math.random() * 8,
           h: 8 + Math.random() * 10,
           vx: -0.8 + Math.random() * 1.6,
-          vy: 1.4 + Math.random() * 1.6,
+          vy: 3.0 + Math.random() * 2.5,
           wobble: Math.random() * Math.PI * 2,
           wobbleSpeed: 0.025 + Math.random() * 0.035,
           wobbleAmp: 0.5 + Math.random() * 0.8,
@@ -1770,8 +1770,8 @@
         p.wobble += p.wobbleSpeed;
         p.x += p.vx + Math.sin(p.wobble) * p.wobbleAmp;
         p.y += p.vy;
-        p.vy += 0.035;
-        if (p.vy > 4.5) p.vy = 4.5;
+        p.vy += 0.08;
+        if (p.vy > 7.5) p.vy = 7.5;
         p.rot += p.vr;
         ctx.save();
         ctx.translate(p.x, p.y);
@@ -1826,7 +1826,7 @@
       text.textContent = phrase;
       text.style.fontSize = Math.max(13, Math.round(size * 0.20)) + 'px';
       b.appendChild(text);
-      var duration = 4 + Math.random() * 2.5;
+      var duration = 2.5 + Math.random() * 1.5;
       var anim = Math.random() < 0.5 ? 'balloonRise' : 'balloonRiseAlt';
       b.style.animation = anim + ' ' + duration + 's linear forwards';
       b.style.animationDelay = (Math.random() * 0.4) + 's';
