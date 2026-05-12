@@ -1750,10 +1750,10 @@
           y: -20 - Math.random() * canvas.height * 0.3,
           w: 6 + Math.random() * 8,
           h: 8 + Math.random() * 10,
-          vx: -0.6 + Math.random() * 1.2,
-          vy: 0.4 + Math.random() * 0.9,
+          vx: -0.8 + Math.random() * 1.6,
+          vy: 1.4 + Math.random() * 1.6,
           wobble: Math.random() * Math.PI * 2,
-          wobbleSpeed: 0.02 + Math.random() * 0.03,
+          wobbleSpeed: 0.025 + Math.random() * 0.035,
           wobbleAmp: 0.5 + Math.random() * 0.8,
           rot: Math.random() * Math.PI * 2,
           vr: -0.06 + Math.random() * 0.12,
@@ -1770,8 +1770,8 @@
         p.wobble += p.wobbleSpeed;
         p.x += p.vx + Math.sin(p.wobble) * p.wobbleAmp;
         p.y += p.vy;
-        p.vy += 0.012;
-        if (p.vy > 1.8) p.vy = 1.8;
+        p.vy += 0.035;
+        if (p.vy > 4.5) p.vy = 4.5;
         p.rot += p.vr;
         ctx.save();
         ctx.translate(p.x, p.y);
