@@ -1637,6 +1637,7 @@
 
 <canvas id="confettiCanvas" style="position:fixed;top:0;left:0;width:100vw;height:100vh;pointer-events:none;z-index:10000;display:none;"></canvas>
 <div id="balloonLayer" style="position:fixed;top:0;left:0;width:100vw;height:100vh;pointer-events:none;z-index:10001;overflow:hidden;display:none;"></div>
+<div id="flameLayer" style="position:fixed;top:0;left:0;width:100vw;height:100vh;pointer-events:none;z-index:10001;overflow:hidden;display:none;"></div>
 
 <style>
   @keyframes balloonRise {
@@ -1693,6 +1694,36 @@
   }
   .afds-balloon.red   { background: radial-gradient(circle at 30% 28%, #ff5a6a 0%, #d61326 45%, #8a0814 100%); }
   .afds-balloon.black { background: radial-gradient(circle at 30% 28%, #555 0%, #1a1a1a 45%, #000 100%); }
+
+  @keyframes flameRise {
+    0%   { transform: translate(0, 0) scale(0.6); opacity: 0; }
+    10%  { opacity: 1; }
+    50%  { transform: translate(18px, -55vh) scale(1.1); }
+    100% { transform: translate(-12px, -115vh) scale(0.7); opacity: 0; }
+  }
+  @keyframes flameRiseAlt {
+    0%   { transform: translate(0, 0) scale(0.6); opacity: 0; }
+    10%  { opacity: 1; }
+    50%  { transform: translate(-22px, -55vh) scale(1.15); }
+    100% { transform: translate(14px, -115vh) scale(0.7); opacity: 0; }
+  }
+  @keyframes flameFlicker {
+    0%, 100% { filter: drop-shadow(0 0 8px rgba(255,140,40,0.7)); }
+    50%      { filter: drop-shadow(0 0 16px rgba(255,90,20,0.95)); }
+  }
+  .afds-flame {
+    position: absolute;
+    bottom: -80px;
+    font-size: 56px;
+    line-height: 1;
+    will-change: transform, opacity;
+    animation-fill-mode: forwards;
+    user-select: none;
+  }
+  .afds-flame .flame-inner {
+    display: inline-block;
+    animation: flameFlicker 0.6s ease-in-out infinite;
+  }
 </style>
 
 <script>
@@ -1817,6 +1848,49 @@
     };
   })();
 
+  /* ===== FLAMES ===== */
+  (function () {
+    var layer = document.getElementById('flameLayer');
+    if (!layer) return;
+
+    function spawnFlame() {
+      var f = document.createElement('div');
+      f.className = 'afds-flame';
+      var size = 44 + Math.random() * 40;
+      f.style.fontSize = size + 'px';
+      f.style.left = (Math.random() * 96) + 'vw';
+      var duration = 4 + Math.random() * 2.5;
+      var anim = Math.random() < 0.5 ? 'flameRise' : 'flameRiseAlt';
+      f.style.animation = anim + ' ' + duration + 's linear forwards';
+      f.style.animationDelay = (Math.random() * 0.3) + 's';
+      var inner = document.createElement('span');
+      inner.className = 'flame-inner';
+      inner.textContent = '🔥';
+      inner.style.animationDelay = (Math.random() * 0.6) + 's';
+      f.appendChild(inner);
+      layer.appendChild(f);
+      setTimeout(function () {
+        if (f.parentNode) f.parentNode.removeChild(f);
+      }, (duration + 1) * 1000);
+    }
+
+    window.fireFlames = function (count, durationMs) {
+      layer.style.display = 'block';
+      count = count || 22;
+      durationMs = durationMs || 4500;
+      var fired = 0;
+      var interval = durationMs / count;
+      var timer = setInterval(function () {
+        spawnFlame();
+        fired++;
+        if (fired >= count) clearInterval(timer);
+      }, interval);
+      setTimeout(function () {
+        if (layer.children.length === 0) layer.style.display = 'none';
+      }, durationMs + 8000);
+    };
+  })();
+
   function fireCelebration() {
     if (window.fireConfetti) {
       window.fireConfetti(90);
@@ -1825,6 +1899,13 @@
       setTimeout(function () { window.fireConfetti(50); }, 4200);
     }
     if (window.fireBalloons) window.fireBalloons(18, 5000);
+  }
+
+  function fireOnFireCelebration() {
+    if (window.fireFlames) {
+      window.fireFlames(20, 4000);
+      setTimeout(function () { window.fireFlames(16, 3000); }, 2500);
+    }
   }
 
   (function () {
@@ -1843,7 +1924,7 @@
       var v = document.getElementById('voteInstagramPopup');
       if (v) {
         v.style.display = 'flex';
-        setTimeout(fireCelebration, 200);
+        setTimeout(fireOnFireCelebration, 200);
       }
     }, 260);
   }
