@@ -1775,7 +1775,7 @@
   (function () {
     var layer = document.getElementById('balloonLayer');
     if (!layer) return;
-    var phrases = ['YOU ROCK!', 'Ate', 'Slay', 'AFine', 'Shine', 'No crumbs', '44!'];
+    var phrases = ['YOU ROCK!', 'Ate', 'Slay', 'AFine', 'Shine', 'No crumbs', '44!', '44!', '44!', '44!'];
 
     function spawnBalloon() {
       var b = document.createElement('div');
@@ -1790,7 +1790,7 @@
       text.textContent = phrase;
       text.style.fontSize = Math.max(13, Math.round(size * 0.20)) + 'px';
       b.appendChild(text);
-      var duration = 6 + Math.random() * 3.5;
+      var duration = 4 + Math.random() * 2.5;
       var anim = Math.random() < 0.5 ? 'balloonRise' : 'balloonRiseAlt';
       b.style.animation = anim + ' ' + duration + 's linear forwards';
       b.style.animationDelay = (Math.random() * 0.4) + 's';
