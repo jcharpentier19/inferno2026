@@ -1635,39 +1635,318 @@
   </div>
 </div>
 
+<canvas id="confettiCanvas" style="position:fixed;top:0;left:0;width:100vw;height:100vh;pointer-events:none;z-index:10000;display:none;"></canvas>
+<div id="balloonLayer" style="position:fixed;top:0;left:0;width:100vw;height:100vh;pointer-events:none;z-index:10001;overflow:hidden;display:none;"></div>
+<div id="flameLayer" style="position:fixed;top:0;left:0;width:100vw;height:100vh;pointer-events:none;z-index:10001;overflow:hidden;display:none;"></div>
+
+<style>
+  @keyframes balloonRise {
+    0%   { transform: translate(0, 0)   rotate(0deg); opacity: 0; }
+    8%   { opacity: 1; }
+    50%  { transform: translate(20px, -55vh) rotate(6deg); }
+    100% { transform: translate(-10px, -115vh) rotate(-4deg); opacity: 1; }
+  }
+  @keyframes balloonRiseAlt {
+    0%   { transform: translate(0, 0)   rotate(0deg); opacity: 0; }
+    8%   { opacity: 1; }
+    50%  { transform: translate(-25px, -55vh) rotate(-7deg); }
+    100% { transform: translate(15px, -115vh) rotate(5deg); opacity: 1; }
+  }
+  .afds-balloon {
+    position: absolute;
+    bottom: -160px;
+    width: 90px;
+    height: 112px;
+    border-radius: 50% 50% 48% 48%;
+    box-shadow: inset -10px -16px 22px rgba(0,0,0,0.28), inset 8px 8px 14px rgba(255,255,255,0.20);
+    will-change: transform, opacity;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+  .afds-balloon span {
+    color: #fff;
+    font-family: 'Playfair Display', serif;
+    font-weight: 800;
+    font-size: 17px;
+    line-height: 1;
+    letter-spacing: 0.5px;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.45);
+    padding: 0 6px;
+    pointer-events: none;
+  }
+  .afds-balloon::before {
+    content: '';
+    position: absolute;
+    bottom: -10px; left: 50%;
+    width: 12px; height: 12px;
+    background: inherit;
+    transform: translateX(-50%) rotate(45deg);
+  }
+  .afds-balloon::after {
+    content: '';
+    position: absolute;
+    bottom: -130px; left: 50%;
+    width: 1.5px; height: 130px;
+    background: rgba(120,120,120,0.6);
+    transform: translateX(-50%);
+  }
+  .afds-balloon.red   { background: radial-gradient(circle at 30% 28%, #ff5a6a 0%, #d61326 45%, #8a0814 100%); }
+  .afds-balloon.black { background: radial-gradient(circle at 30% 28%, #555 0%, #1a1a1a 45%, #000 100%); }
+
+  @keyframes flameRise {
+    0%   { transform: translate(0, 0) scale(0.6); opacity: 0; }
+    10%  { opacity: 1; }
+    50%  { transform: translate(18px, -55vh) scale(1.1); }
+    100% { transform: translate(-12px, -115vh) scale(0.7); opacity: 0; }
+  }
+  @keyframes flameRiseAlt {
+    0%   { transform: translate(0, 0) scale(0.6); opacity: 0; }
+    10%  { opacity: 1; }
+    50%  { transform: translate(-22px, -55vh) scale(1.15); }
+    100% { transform: translate(14px, -115vh) scale(0.7); opacity: 0; }
+  }
+  @keyframes flameFlicker {
+    0%, 100% { filter: drop-shadow(0 0 8px rgba(255,140,40,0.7)); }
+    50%      { filter: drop-shadow(0 0 16px rgba(255,90,20,0.95)); }
+  }
+  .afds-flame {
+    position: absolute;
+    bottom: -80px;
+    font-size: 56px;
+    line-height: 1;
+    will-change: transform, opacity;
+    animation-fill-mode: forwards;
+    user-select: none;
+  }
+  .afds-flame .flame-inner {
+    display: inline-block;
+    animation: flameFlicker 0.6s ease-in-out infinite;
+  }
+</style>
+
 <script>
+  /* ===== CONFETTI ===== */
   (function () {
-    try {
-      if (sessionStorage.getItem('congratsPopupDismissed') === '1') {
-        if (sessionStorage.getItem('voteInstagramDismissed') !== '1') {
-          var v = document.getElementById('voteInstagramPopup');
-          if (v) v.style.display = 'flex';
-        }
-        return;
+    var canvas = document.getElementById('confettiCanvas');
+    if (!canvas) return;
+    var ctx = canvas.getContext('2d');
+    var pieces = [];
+    var rafId = null;
+    var colors = ['#c10b1c', '#8a0814', '#e63a4a', '#1a1a1a', '#000000', '#3a3a3a'];
+
+    function resize() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    function spawnBurst(count) {
+      for (var i = 0; i < count; i++) {
+        pieces.push({
+          x: Math.random() * canvas.width,
+          y: -20 - Math.random() * canvas.height * 0.3,
+          w: 6 + Math.random() * 8,
+          h: 8 + Math.random() * 10,
+          vx: -0.6 + Math.random() * 1.2,
+          vy: 0.4 + Math.random() * 0.9,
+          wobble: Math.random() * Math.PI * 2,
+          wobbleSpeed: 0.02 + Math.random() * 0.03,
+          wobbleAmp: 0.5 + Math.random() * 0.8,
+          rot: Math.random() * Math.PI * 2,
+          vr: -0.06 + Math.random() * 0.12,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          shape: Math.random() < 0.5 ? 'rect' : 'circle'
+        });
       }
-    } catch (e) { /* sessionStorage unavailable — show anyway */ }
+    }
+
+    function tick() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (var i = pieces.length - 1; i >= 0; i--) {
+        var p = pieces[i];
+        p.wobble += p.wobbleSpeed;
+        p.x += p.vx + Math.sin(p.wobble) * p.wobbleAmp;
+        p.y += p.vy;
+        p.vy += 0.012;
+        if (p.vy > 1.8) p.vy = 1.8;
+        p.rot += p.vr;
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.rot);
+        ctx.fillStyle = p.color;
+        if (p.shape === 'rect') {
+          ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+        } else {
+          ctx.beginPath();
+          ctx.arc(0, 0, p.w / 2, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        ctx.restore();
+        if (p.y > canvas.height + 40) pieces.splice(i, 1);
+      }
+      if (pieces.length > 0) {
+        rafId = requestAnimationFrame(tick);
+      } else {
+        canvas.style.display = 'none';
+        rafId = null;
+      }
+    }
+
+    window.fireConfetti = function (count) {
+      canvas.style.display = 'block';
+      spawnBurst(count || 80);
+      if (!rafId) rafId = requestAnimationFrame(tick);
+    };
+    window.clearConfetti = function () {
+      pieces.length = 0;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      canvas.style.display = 'none';
+    };
+  })();
+
+  /* ===== BALLOONS ===== */
+  (function () {
+    var layer = document.getElementById('balloonLayer');
+    if (!layer) return;
+    var phrases = ['YOU ROCK!', 'Ate', 'Slay', 'AFine', 'Shine', 'No crumbs', '44!', '44!', '44!', '44!'];
+
+    function spawnBalloon() {
+      var b = document.createElement('div');
+      var isRed = Math.random() < 0.55;
+      b.className = 'afds-balloon ' + (isRed ? 'red' : 'black');
+      var size = 78 + Math.random() * 38;
+      b.style.width = size + 'px';
+      b.style.height = (size * 1.25) + 'px';
+      b.style.left = (Math.random() * 92) + 'vw';
+      var phrase = phrases[Math.floor(Math.random() * phrases.length)];
+      var text = document.createElement('span');
+      text.textContent = phrase;
+      text.style.fontSize = Math.max(13, Math.round(size * 0.20)) + 'px';
+      b.appendChild(text);
+      var duration = 4 + Math.random() * 2.5;
+      var anim = Math.random() < 0.5 ? 'balloonRise' : 'balloonRiseAlt';
+      b.style.animation = anim + ' ' + duration + 's linear forwards';
+      b.style.animationDelay = (Math.random() * 0.4) + 's';
+      layer.appendChild(b);
+      setTimeout(function () {
+        if (b.parentNode) b.parentNode.removeChild(b);
+      }, (duration + 1) * 1000);
+    }
+
+    var spawnTimers = [];
+    window.fireBalloons = function (count, durationMs) {
+      layer.style.display = 'block';
+      count = count || 14;
+      durationMs = durationMs || 4000;
+      var fired = 0;
+      var interval = durationMs / count;
+      var timer = setInterval(function () {
+        spawnBalloon();
+        fired++;
+        if (fired >= count) clearInterval(timer);
+      }, interval);
+      spawnTimers.push(timer);
+      setTimeout(function () {
+        if (layer.children.length === 0) layer.style.display = 'none';
+      }, durationMs + 16000);
+    };
+    window.clearBalloons = function () {
+      spawnTimers.forEach(function (t) { clearInterval(t); });
+      spawnTimers.length = 0;
+      while (layer.firstChild) layer.removeChild(layer.firstChild);
+      layer.style.display = 'none';
+    };
+  })();
+
+  /* ===== FLAMES ===== */
+  (function () {
+    var layer = document.getElementById('flameLayer');
+    if (!layer) return;
+
+    function spawnFlame() {
+      var f = document.createElement('div');
+      f.className = 'afds-flame';
+      var size = 44 + Math.random() * 40;
+      f.style.fontSize = size + 'px';
+      f.style.left = (Math.random() * 96) + 'vw';
+      var duration = 4 + Math.random() * 2.5;
+      var anim = Math.random() < 0.5 ? 'flameRise' : 'flameRiseAlt';
+      f.style.animation = anim + ' ' + duration + 's linear forwards';
+      f.style.animationDelay = (Math.random() * 0.3) + 's';
+      var inner = document.createElement('span');
+      inner.className = 'flame-inner';
+      inner.textContent = '🔥';
+      inner.style.animationDelay = (Math.random() * 0.6) + 's';
+      f.appendChild(inner);
+      layer.appendChild(f);
+      setTimeout(function () {
+        if (f.parentNode) f.parentNode.removeChild(f);
+      }, (duration + 1) * 1000);
+    }
+
+    window.fireFlames = function (count, durationMs) {
+      layer.style.display = 'block';
+      count = count || 22;
+      durationMs = durationMs || 4500;
+      var fired = 0;
+      var interval = durationMs / count;
+      var timer = setInterval(function () {
+        spawnFlame();
+        fired++;
+        if (fired >= count) clearInterval(timer);
+      }, interval);
+      setTimeout(function () {
+        if (layer.children.length === 0) layer.style.display = 'none';
+      }, durationMs + 8000);
+    };
+  })();
+
+  function fireCelebration() {
+    if (window.fireConfetti) {
+      window.fireConfetti(90);
+      setTimeout(function () { window.fireConfetti(70); }, 1200);
+      setTimeout(function () { window.fireConfetti(60); }, 2600);
+      setTimeout(function () { window.fireConfetti(50); }, 4200);
+    }
+    if (window.fireBalloons) window.fireBalloons(18, 5000);
+  }
+
+  function fireOnFireCelebration() {
+    if (window.fireFlames) {
+      window.fireFlames(20, 4000);
+      setTimeout(function () { window.fireFlames(16, 3000); }, 2500);
+    }
+  }
+
+  (function () {
     var el = document.getElementById('photoPolicyPopup');
-    if (el) el.style.display = 'flex';
+    if (el) {
+      el.style.display = 'flex';
+      setTimeout(fireCelebration, 200);
+    }
   })();
   function closePhotoPolicyPopup() {
     var el = document.getElementById('photoPolicyPopup');
     if (!el) return;
     el.classList.add('closing');
-    try { sessionStorage.setItem('congratsPopupDismissed', '1'); } catch (e) {}
     setTimeout(function () {
       if (el.parentNode) el.parentNode.removeChild(el);
-      try {
-        if (sessionStorage.getItem('voteInstagramDismissed') === '1') return;
-      } catch (e) {}
+      if (window.clearConfetti) window.clearConfetti();
+      if (window.clearBalloons) window.clearBalloons();
       var v = document.getElementById('voteInstagramPopup');
-      if (v) v.style.display = 'flex';
+      if (v) {
+        v.style.display = 'flex';
+        setTimeout(fireOnFireCelebration, 200);
+      }
     }, 260);
   }
   function closeVoteInstagramPopup() {
     var el = document.getElementById('voteInstagramPopup');
     if (!el) return;
     el.classList.add('closing');
-    try { sessionStorage.setItem('voteInstagramDismissed', '1'); } catch (e) {}
     setTimeout(function () {
       if (el.parentNode) el.parentNode.removeChild(el);
     }, 260);
