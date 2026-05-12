@@ -1800,6 +1800,11 @@
       spawnBurst(count || 80);
       if (!rafId) rafId = requestAnimationFrame(tick);
     };
+    window.clearConfetti = function () {
+      pieces.length = 0;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      canvas.style.display = 'none';
+    };
   })();
 
   /* ===== BALLOONS ===== */
@@ -1831,6 +1836,7 @@
       }, (duration + 1) * 1000);
     }
 
+    var spawnTimers = [];
     window.fireBalloons = function (count, durationMs) {
       layer.style.display = 'block';
       count = count || 14;
@@ -1842,9 +1848,16 @@
         fired++;
         if (fired >= count) clearInterval(timer);
       }, interval);
+      spawnTimers.push(timer);
       setTimeout(function () {
         if (layer.children.length === 0) layer.style.display = 'none';
       }, durationMs + 16000);
+    };
+    window.clearBalloons = function () {
+      spawnTimers.forEach(function (t) { clearInterval(t); });
+      spawnTimers.length = 0;
+      while (layer.firstChild) layer.removeChild(layer.firstChild);
+      layer.style.display = 'none';
     };
   })();
 
@@ -1921,6 +1934,8 @@
     el.classList.add('closing');
     setTimeout(function () {
       if (el.parentNode) el.parentNode.removeChild(el);
+      if (window.clearConfetti) window.clearConfetti();
+      if (window.clearBalloons) window.clearBalloons();
       var v = document.getElementById('voteInstagramPopup');
       if (v) {
         v.style.display = 'flex';
